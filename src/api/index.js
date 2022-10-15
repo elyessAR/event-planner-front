@@ -1,9 +1,20 @@
 import axios from 'axios';
 
-const url = 'http://localhost:5000/posts';
+const API = axios.create({ baseURL: 'http://localhost:5000' });
 
-export const fetchEvents = () => axios.get(url);
-export const createEvent = (newEvent) => axios.post(url, newEvent);
-export const updateEvent = (id, eventData) => axios.patch(`${url}/${id}`, eventData);
-export const deleteEvent = (id) => axios.delete(`${url}/${id}`);
-export const likeEvent = (id) => axios.patch(`${url}/${id}/likePost`);
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem('profile')) {
+    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
+  }
+
+  return req;
+});
+
+export const fetchEvents = () => API.get('/posts');
+export const createEvent = (newEvent) => API.post('/posts', newEvent);
+export const updateEvent = (id, eventData) => API.patch(`/posts/${id}`, eventData);
+export const deleteEvent = (id) => API.delete(`/posts/${id}`);
+export const likeEvent = (id) => API.patch(`/posts/${id}/likePost`);
+
+export const signIn = (formData) => API.post('/users/signin', formData);
+export const signUp = (formData) => API.post('/users/signup', formData);
