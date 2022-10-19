@@ -8,7 +8,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import decode from 'jwt-decode';
 
-export default function Navbar() {
+export default function Navbar({ setSearchData, cancelSearch }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -19,6 +19,9 @@ export default function Navbar() {
     dispatch({ type: 'LOGOUT' });
     navigate('/');
     setUser(null);
+  };
+  const handleChange = (e) => {
+    setSearchData(e.target.value);
   };
 
   useEffect(() => {
@@ -32,33 +35,32 @@ export default function Navbar() {
   }, [location]);
 
   return (
-    <AppBar className={classes.appBar} position="static" color="inhirit">
+    <AppBar onChange={handleChange} className={`${classes.appBar} ${classes.appBarMob}`} position="static" color="inhirit">
       <div className={classes.brandContainer}>
         <Typography
           component={Link}
           to="/"
           className={classes.heading}
           style={{
-            color: 'rgba(0,183,255, 1)',
+            color: '#6d1b7b',
           }}
-          variant="h5"
-          align="center"
+          variant="h6"
         >
           Event Planner
         </Typography>
       </div>
       <SearchBar
         className={classes.searchBar}
-        // onChange={handleChange}
         // onRequestSearch={handleClick}
+        onCancelSearch={() => cancelSearch()}
       />
       <Toolbar className={classes.toolbar}>
         {user ? (
-          <div className={classes.profile}>
+          <div className={`${classes.profile} ${classes.profileMob}`}>
             <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageUrl}>
               {user.result.name.charAt(0)}
             </Avatar>
-            <Typography className={classes.userName} variant="h6">
+            <Typography className={`${classes.userName} ${classes.userNameMob}`} variant="h6">
               {user.result.name}
             </Typography>
             <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useStyles from './styles';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 import { deleteEvent, likeEvent, getEvents } from '../../../actions/events';
@@ -19,7 +19,8 @@ export default function Event({ event, setCurrentId }) {
 
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem('profile'));
-  console.log(`this is ${user?.result?._id} and ${event.creator} `);
+  // console.log(`this is ${user?.result?._id} and ${event.creator} `);
+  // console.log(searchData);
 
   const Likes = () => {
     if (event.likes.length > 0) {
@@ -36,6 +37,13 @@ export default function Event({ event, setCurrentId }) {
         </>
       );
     }
+
+    return (
+      <>
+        <ThumbUpAltOutlined fontSize="small" />
+        &nbsp;Like
+      </>
+    );
   };
 
   return (

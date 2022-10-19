@@ -6,8 +6,11 @@ import { getEvents, deleteEvent } from '../../actions/events';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 
-export default function Home() {
+export default function Home({ searchData }) {
   const [currentId, setCurrentId] = useState(null);
+  // const [searchedData, setSearchedData] = useState(null);
+  // setSearchedData(searchData);
+
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -18,15 +21,9 @@ export default function Home() {
   return (
     <Grow in>
       <Container>
-        <Grid
-          container
-          justify="space-between"
-          alignItems="stretch"
-          spcing={3}
-          className={classes.mainContainer}
-        >
+        <Grid container justify="space-between" alignItems="stretch" spcing={3} className={classes.mainContainer}>
           <Grid items xs={12} sm={7}>
-            <Events setCurrentId={setCurrentId} />
+            <Events setCurrentId={setCurrentId} searchData={searchData} />
           </Grid>
           <Grid items xs={12} sm={4}>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
