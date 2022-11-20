@@ -8,6 +8,10 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
     padding: theme.spacing(2),
   },
+  userName: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),

@@ -11,9 +11,8 @@ import { gapi } from 'gapi-script';
 import { signin, signup } from '../../actions/auth';
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
 
-export const Auth = () => {
+export const Auth = ({ isSignup, setIsSignup }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isSignup, setIsSignup] = useState(false);
   const [form, setForm] = useState(initialState);
 
   const classes = useStyles();
@@ -35,7 +34,8 @@ export const Auth = () => {
   };
 
   const switchMode = () => {
-    setIsSignup((prevIsSignup) => !prevIsSignup);
+    isSignup ? setIsSignup(false) : setIsSignup(true);
+    console.log(isSignup);
     setShowPassword(false);
   };
 
@@ -70,8 +70,10 @@ export const Auth = () => {
           <Grid Container spacing={2}>
             {isSignup && (
               <>
-                <Input name="firstName" label="First Name" onChange={handleChange} autoFocus half />
-                <Input name="lastName" label="Last Name" onChange={handleChange} half />
+                <div className={classes.userName}>
+                  <Input name="firstName" label="First Name" onChange={handleChange} autoFocus half />
+                  <Input name="lastName" label="Last Name" onChange={handleChange} half />
+                </div>
               </>
             )}
             <Input name="email" label="Email Address" onChange={handleChange} type="email" />

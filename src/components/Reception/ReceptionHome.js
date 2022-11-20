@@ -58,19 +58,17 @@ export default function Home({ searchData }) {
 
   return (
     <Grow in>
-      <Container maxWidth="xl">
+      <Container maxWidth="false">
         <Grid container justify="space-between" alignItems="stretch" spcing={3} className={classes.mainContainer}>
           <Grid items xs={12} sm={7} md={9}>
             <Events setCurrentId={setCurrentId} searchData={searchData} />
           </Grid>
           <Grid items xs={12} sm={4} md={3}>
-            <SearchLocation />
-            <SearchLocation2 />
             <AppBar className={classes.appBarSearch} position="static" color="inherit">
               <TextField
                 name="search"
                 variant="outlined"
-                label="Search Popular Events Accross The World"
+                label="Search Events"
                 value={search}
                 onKeyPress={handleKeyPress}
                 onChange={(e) => {
@@ -86,11 +84,9 @@ export default function Home({ searchData }) {
             <Form currentId={currentId} setCurrentId={setCurrentId} />
           </Grid>
         </Grid>
-        <Grid className={classes.Grid}>
-          <Paper elevation={6} className={classes.Paper}>
-            <Pagination className={classes.Pagination} page={page} />
-          </Paper>
-        </Grid>
+        <Paper elevation={6} className={classes.Paper}>
+          <Pagination className={classes.Pagination} page={page} />
+        </Paper>
       </Container>
     </Grow>
   );

@@ -3,18 +3,23 @@ import { deepPurple } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
   appBar: {
-    borderRadius: 1,
-    margin: '15px 0',
+    borderRadius: 5,
+    margin: '6px 0',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    height: '80px',
+  },
+  img: {
+    height: '50px',
+    width: '200',
   },
 
   toolbar: {
     display: 'flex',
     justifyContent: 'flex-end',
-    width: '600px',
+    width: '80%',
   },
   profile: {
     display: 'flex',
@@ -30,8 +35,7 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
   },
   purple: {
-    color: theme.palette.getContrastText(deepPurple[500]),
-    backgroundColor: deepPurple[500],
+    color: deepPurple[500],
   },
   [theme.breakpoints.down('sm')]: {
     //breakpoint for mobile device compatibility
@@ -50,7 +54,7 @@ export default makeStyles((theme) => ({
     userNameMob: {
       display: 'none',
     },
-    img: {
+    imgMb: {
       display: 'none',
     },
     profileMob: {

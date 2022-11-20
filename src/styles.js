@@ -1,6 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
+  img: {
+    position: 'absolute',
+  },
+
   appBar: {
     borderRadius: 15,
     margin: '15px 0',

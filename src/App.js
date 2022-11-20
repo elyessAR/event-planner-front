@@ -1,28 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from '@material-ui/core';
+import { TextField, Button, Typography, Paper } from '@material-ui/core';
 
 import Navbar from './components/Navbar/Navbar';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/Home/Home';
 import { Auth } from './components/Auth/Auth';
+import { EventDetails } from './components/EventDetails/EventDetails';
+import homeImage from './images/home-image.png';
+import { Reception } from './components/Reception/Reception';
 
 const App = () => {
+  const user = JSON.parse(localStorage.getItem('profile'));
+  const [isSignup, setIsSignup] = useState(false);
+
   const [searchData, setSearchData] = useState('');
   const cancelSearch = () => {
     setSearchData('');
   };
-  // const handleCallback = (childData) => {};
-  console.log(searchData);
 
   return (
     <BrowserRouter>
-      <Container maxidth="lg">
-        <Navbar setSearchData={setSearchData} cancelSearch={cancelSearch} />
+      <Navbar setIsSignup={setIsSignup} setSearchData={setSearchData} cancelSearch={cancelSearch} />
+
+      <div>
         <Routes>
-          <Route path="/" element={<Home searchData={searchData} />} />
-          <Route path="/auth" element={<Auth />} />
+          <Route path="/" element={<Reception />} />
+          <Route path="/events" element={<Home searchData={searchData} />} />
+          <Route path="/events/search" element={<Home />} />
+          <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/auth" element={!user ? <Auth isSignup={isSignup} setIsSignup={setIsSignup} /> : <Navigate replace to="/events" />} />
         </Routes>
-      </Container>
+      </div>
     </BrowserRouter>
   );
 };

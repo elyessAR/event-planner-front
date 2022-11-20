@@ -1,13 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import useStyles from './styles';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from 'react-redux';
 import { createEvent, updateEvent, getEvents } from '../../actions/events';
+import { useNavigate } from 'react-router-dom';
+import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { City, Country, State } from 'country-state-city';
+import { OpenStreetMapProvider, GeoSearchControl } from 'leaflet-geosearch';
+import { Stack, Autocomplete } from '@mui/material';
+import Search from '../Search';
+
+import DateFnsUtils from '@date-io/date-fns';
 
 export default function Form({ currentId, setCurrentId }) {
+  const provider = new OpenStreetMapProvider();
+  const searchControl = new GeoSearchControl({
+    provider: provider,
+  });
+  const [selectedStartingDate, handleStartingDateChange] = useState(null);
+  const [selectedEndingDate, handleEndingDateChange] = useState(null);
+
+  const [country, setCountry] = useState('');
+  const [state, setState] = useState('');
+  const [value, setValue] = useState('');
+  const [places, setPlaces] = useState([]);
+  const handleSelect = async (value) => {};
+
+  const countries = Country.getAllCountries();
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('profile'));
+  const navigate = useNavigate();
 
   const [eventData, setEventData] = useState({
     title: '',
@@ -15,7 +41,16 @@ export default function Form({ currentId, setCurrentId }) {
     tags: '',
     selectedFile: '',
   });
-  const event = useSelector((state) => (currentId ? state.events.find((e) => e._id === currentId) : null));
+  const [eventData2, setEventData2] = useState({
+    title: '',
+    message: '',
+    tags: '',
+    selectedFile: '',
+    startingDate: '',
+    endingDate: '',
+    location: '',
+  });
+  const event = useSelector((state) => (currentId ? state.events.events.find((e) => e._id === currentId) : null));
 
   const classes = useStyles();
   useEffect(() => {
@@ -24,9 +59,9 @@ export default function Form({ currentId, setCurrentId }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (currentId) {
-      dispatch(updateEvent(currentId, { ...eventData, name: user?.result?.name }));
+      dispatch(updateEvent(currentId, { ...eventData2, name: user?.result?.name }));
     } else {
-      dispatch(createEvent({ ...eventData, name: user?.result?.name }));
+      dispatch(createEvent({ ...eventData2, name: user?.result?.name }, navigate));
     }
     clear();
   };
@@ -42,7 +77,7 @@ export default function Form({ currentId, setCurrentId }) {
   }
   const clear = () => {
     setCurrentId(null);
-    setEventData({ title: '', message: '', tags: '', selectedFile: '' });
+    setEventData({ title: '', message: '', tags: '', selectedFile: '', location: '', startingDate: '', endingDate: '' });
   };
 
   return (
@@ -51,31 +86,88 @@ export default function Form({ currentId, setCurrentId }) {
         <Typography variant="h6">{currentId ? 'Editing' : 'Creating'} an event </Typography>
 
         <TextField
+          required
           name="title"
           variant="outlined"
           label="Title"
           fullWidth
-          value={eventData.title}
-          onChange={(e) => setEventData({ ...eventData, title: e.target.value })}
+          value={currentId ? event?.title : eventData2.title}
+          onChange={(e) => setEventData2({ ...eventData2, title: e.target.value })}
         />
         <TextField
           name="message"
           variant="outlined"
           label="Message"
           fullWidth
-          value={eventData.message}
-          onChange={(e) => setEventData({ ...eventData, message: e.target.value })}
+          value={currentId ? event?.message : eventData2.message}
+          onChange={(e) => setEventData2({ ...eventData2, message: e.target.value })}
         />
         <TextField
           name="tags"
           variant="outlined"
           label="Tags"
           fullWidth
-          value={eventData.tags}
-          onChange={(e) => setEventData({ ...eventData, tags: e.target.value.split(',') })}
+          value={currentId ? event?.tags : eventData2.tags}
+          onChange={(e) => setEventData2({ ...eventData2, tags: e.target.value.split(',') })}
         />
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <KeyboardDateTimePicker
+            required
+            autoOk
+            variant="inline"
+            minDate={new Date()}
+            inputVariant="outlined"
+            label="Event Starts"
+            format="yyyy/MM/dd HH:mm"
+            value={currentId ? event?.startingDate : selectedStartingDate}
+            onChange={(date) => {
+              handleStartingDateChange(date);
+              setEventData2({ ...eventData2, startingDate: date });
+            }}
+          />
+          <KeyboardDateTimePicker
+            required
+            autoOk
+            variant="inline"
+            minDate={new Date()}
+            inputVariant="outlined"
+            label="Event Ends "
+            format="yyyy/MM/dd HH:mm"
+            value={currentId ? event?.endingDate : selectedEndingDate}
+            onChange={(date) => {
+              handleEndingDateChange(date);
+              setEventData2({ ...eventData2, endingDate: date });
+            }}
+          />
+        </MuiPickersUtilsProvider>
+
+        <Stack
+          required
+          value={value}
+          onChange={(e) => {
+            provider.search({ query: e.target.value }).then(function (result) {
+              setPlaces(result);
+            });
+          }}
+          spacing={2}
+          width="250px"
+        >
+          <Autocomplete
+            required
+            inputValue={value}
+            options={places}
+            renderInput={(params) => <TextField {...params} label="Event Location" />}
+            onInputChange={(event, newInputValue) => {
+              setValue(newInputValue);
+              console.log(newInputValue);
+              setEventData2({ ...eventData2, location: newInputValue });
+            }}
+            freeSolo
+          />
+        </Stack>
+
         <div className={classes.fileInput}>
-          <FileBase type="file" multiple={false} onDone={({ base64 }) => setEventData({ ...eventData, selectedFile: base64 })} />
+          <FileBase type="file" multiple={false} onDone={({ base64 }) => setEventData2({ ...eventData2, selectedFile: base64 })} />
         </div>
         <Button variant="contained" color="primary" size="large " type="submit">
           {' '}

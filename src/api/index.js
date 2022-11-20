@@ -10,11 +10,17 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchEvents = () => API.get('/posts');
-export const createEvent = (newEvent) => API.post('/posts', newEvent);
-export const updateEvent = (id, eventData) => API.patch(`/posts/${id}`, eventData);
-export const deleteEvent = (id) => API.delete(`/posts/${id}`);
-export const likeEvent = (id) => API.patch(`/posts/${id}/likePost`);
+export const fetchEvent = (id) => API.get(`/events/${id}`);
+
+export const fetchEvents = (page) => API.get(`/events?page=${page}`);
+
+export const createEvent = (newEvent) => API.post('/events', newEvent);
+export const updateEvent = (id, eventData) => API.patch(`/events/${id}`, eventData);
+export const deleteEvent = (id) => API.delete(`/events/${id}`);
+export const likeEvent = (id) => API.patch(`/events/${id}/likeEvent`);
+export const fetchEventsBySearch = (searchQuery) => API.get(`/events/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
+export const fetchEventsByLocation = (searchQuery) =>
+  API.get(`/events/searchLocation?searchQuery=${searchQuery.searchLocation || 'none'}&tags=${searchQuery.tags}`);
 
 export const signIn = (formData) => API.post('/users/signin', formData);
 export const signUp = (formData) => API.post('/users/signup', formData);
