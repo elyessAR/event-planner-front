@@ -47,6 +47,7 @@ export const Auth = ({ isSignup, setIsSignup }) => {
     try {
       dispatch({ type: 'AUTH', data: { result, token } });
       navigate('/');
+      console.log('nav');
     } catch (error) {
       console.log(error);
     }

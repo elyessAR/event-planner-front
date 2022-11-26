@@ -23,19 +23,15 @@ export const SearchLocation2 = () => {
       dispatch(getEventsByLocation({ searchLocation, tags }));
       console.log('searchlocationworks');
     }
-    //  else {
-    //   console.log('LLL');
-    //   navigate('/');
-    // }
   };
 
   return (
     <AppBar className={classes.appBarSearch} position="static" color="inherit">
       <TextField
         // disabled={true}
-        name="Choose Custom Location "
+        name="Choose Prefered Location "
         variant="outlined"
-        label="Choose Custom Location"
+        label="Choose Prefered Location"
         value={searchLocation}
         onKeyPress={handleKeyPress}
         onChange={(e) => {

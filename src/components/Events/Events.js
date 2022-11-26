@@ -1,20 +1,30 @@
 import React, { useState } from 'react';
 import Event from './Event/Event';
 import useStyles from './styles';
-import { Grid, CircularProgress } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
+
+import { Grid, CircularProgress, Button } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
 const Events = ({ setCurrentId, searchData }) => {
   const { events, isLoading } = useSelector((state) => state.events);
-  const [rows, setRows] = useState(events);
+  const navigate = useNavigate();
 
-  // let filteredRows = events.filter((event) => {
-  //   return event.title.toLowerCase().includes(searchData.toLowerCase());
-  // });
+  const nav = () => {
+    navigate('/createEvent');
+  };
 
   const classes = useStyles();
 
-  if (!events.length && !isLoading) return 'No current events in your area, be the first one to organize something of a value!';
+  if (!events.length && !isLoading)
+    return (
+      <div>
+        <div>No current events in your area, be the first one to organize something of a value! </div>
+        <Button onClick={nav} className={classes.searchBotton} variant="contained" color="secondary">
+          Organize an Event{' '}
+        </Button>
+      </div>
+    );
 
   return isLoading ? (
     <CircularProgress />

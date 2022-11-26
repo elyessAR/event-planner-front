@@ -50,8 +50,6 @@ export default function Home({ searchData }) {
       dispatch(getEventsBySearch({ search, tags: tags.join(',') }));
       // navigate(`/events/search?searchQuery=${search || 'none'}$ tags=${tags.join(',')}`);
     } else {
-      console.log('LLL');
-
       navigate('/');
     }
   };
@@ -66,22 +64,6 @@ export default function Home({ searchData }) {
           <Grid items xs={12} sm={4} md={3}>
             <SearchLocation />
             <SearchLocation2 />
-            <AppBar className={classes.appBarSearch} position="static" color="inherit">
-              <TextField
-                name="search"
-                variant="outlined"
-                label="Search Popular Events Accross The World"
-                value={search}
-                onKeyPress={handleKeyPress}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                }}
-              />
-
-              <Button onClick={searchEvent} className={classes.searchBotton} variant="contained" color="primary">
-                Search{' '}
-              </Button>
-            </AppBar>
 
             <Form currentId={currentId} setCurrentId={setCurrentId} />
           </Grid>

@@ -2,15 +2,11 @@ import { Container, Grow, Grid, Paper, AppBar, TextField, Button } from '@materi
 import Events from '../Events/Events';
 import Form from '../form/Form';
 import { useNavigate, useLocation } from 'react-router-dom';
-import React, { useState, useEffect, useMemo } from 'react';
-import ChipInput from 'material-ui-chip-input';
-import { getEvents, getEventsBySearch, deleteEvent, getEventsByLocation } from '../../actions/events';
+import React, { useState } from 'react';
+import { getEventsBySearch } from '../../actions/events';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import Pagination from '../Pagination';
-import axios from 'axios';
-import { SearchLocation } from '../SearchLocation/SearchLocation';
-import { SearchLocation2 } from '../SearchLocation/SearchLocation2';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -27,7 +23,6 @@ export default function Home({ searchData }) {
   const query = useQuery();
   const navigate = useNavigate();
   const page = query.get('page') || 1;
-  const searchQuery = query.get('searchQuery  ');
   const [search, setSearch] = useState('');
 
   const [tags, setTags] = useState([]);
@@ -37,23 +32,18 @@ export default function Home({ searchData }) {
       //search event
     }
   };
-  const handleAdd = (tag) => {
-    setTags([...tags, tag]);
-  };
 
-  const handleDelete = (tagToDelete) => {
-    setTags(tags.filter((tag) => tag !== tagToDelete));
-  };
   const searchEvent = () => {
     if (search.trim()) {
       console.log('searchevent');
       dispatch(getEventsBySearch({ search, tags: tags.join(',') }));
       // navigate(`/events/search?searchQuery=${search || 'none'}$ tags=${tags.join(',')}`);
     } else {
-      console.log('LLL');
-
       navigate('/');
     }
+  };
+  const nav = () => {
+    navigate('/createEvent');
   };
 
   return (
@@ -78,6 +68,11 @@ export default function Home({ searchData }) {
 
               <Button onClick={searchEvent} className={classes.searchBotton} variant="contained" color="primary">
                 Search{' '}
+              </Button>
+            </AppBar>
+            <AppBar className={classes.appBarSearch} position="static" color="inherit">
+              <Button onClick={nav} className={classes.searchBotton} variant="contained" color="secondary">
+                Organize an Event{' '}
               </Button>
             </AppBar>
 

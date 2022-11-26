@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextField, Button, Container, Typography, Paper, Box } from '@material-ui/core';
-import homeImage from '../../images/home-image.png';
+import homeImage from '../../images/Home.png';
 import Home from '../Home/Home';
 import ReceptionHome from './ReceptionHome';
 import { useNavigate, useLocation } from 'react-router-dom';

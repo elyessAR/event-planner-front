@@ -9,7 +9,6 @@ import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pi
 import { City, Country, State } from 'country-state-city';
 import { OpenStreetMapProvider, GeoSearchControl } from 'leaflet-geosearch';
 import { Stack, Autocomplete } from '@mui/material';
-import Search from '../Search';
 
 import DateFnsUtils from '@date-io/date-fns';
 
@@ -21,15 +20,11 @@ export default function Form({ currentId, setCurrentId }) {
   const [selectedStartingDate, handleStartingDateChange] = useState(null);
   const [selectedEndingDate, handleEndingDateChange] = useState(null);
 
-  const [country, setCountry] = useState('');
-  const [state, setState] = useState('');
   const [value, setValue] = useState('');
   const [places, setPlaces] = useState([]);
   const handleSelect = async (value) => {};
 
   const countries = Country.getAllCountries();
-
-  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('profile'));

@@ -7,7 +7,7 @@ export default makeStyles((theme) => ({
   },
   img: {
     width: '100%',
-    height: '500px',
+    height: '400px',
   },
 
   userName: {
@@ -20,7 +20,7 @@ export default makeStyles((theme) => ({
   },
   overlay: {
     position: 'absolute ',
-    top: '500px',
+    top: '420px',
     left: '80px',
     color: 'white',
   },
