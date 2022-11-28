@@ -68,11 +68,7 @@ export default function Home({ searchData }) {
             <Form currentId={currentId} setCurrentId={setCurrentId} />
           </Grid>
         </Grid>
-        <Grid className={classes.Grid}>
-          <Paper elevation={6} className={classes.Paper}>
-            <Pagination className={classes.Pagination} page={page} />
-          </Paper>
-        </Grid>
+        <Grid className={classes.Grid}></Grid>
       </Container>
     </Grow>
   );

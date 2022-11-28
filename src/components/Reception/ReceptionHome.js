@@ -70,18 +70,13 @@ export default function Home({ searchData }) {
                 Search{' '}
               </Button>
             </AppBar>
-            <AppBar className={classes.appBarSearch} position="static" color="inherit">
-              <Button onClick={nav} className={classes.searchBotton} variant="contained" color="secondary">
-                Organize an Event{' '}
-              </Button>
-            </AppBar>
 
             <Form currentId={currentId} setCurrentId={setCurrentId} />
+            <Paper elevation={6} className={classes.Paper}>
+              <Pagination className={classes.Pagination} page={page} />
+            </Paper>
           </Grid>
         </Grid>
-        <Paper elevation={6} className={classes.Paper}>
-          <Pagination className={classes.Pagination} page={page} />
-        </Paper>
       </Container>
     </Grow>
   );

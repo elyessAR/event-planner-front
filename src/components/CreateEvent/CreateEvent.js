@@ -64,6 +64,7 @@ export const CreateEvent = () => {
           </Typography>
 
           <TextField
+            required
             name="title"
             label="Title"
             variant="outlined"
@@ -84,12 +85,12 @@ export const CreateEvent = () => {
             onChange={(e) => setEventData({ ...eventData, message: e.target.value })}
           />
 
-          <Typography variant="h6" className={classes.typography}>
-            Tags:{' '}
-          </Typography>
-          <Typography variant="h8" className={classes.typography}>
-            Improve discoverability of your event by adding tags relevant to this event.{' '}
-          </Typography>
+          <div>
+            <Typography variant="h6" className={classes.typography}>
+              Tags:{' '}
+            </Typography>
+            <Typography variant="h8">Improve discoverability of your event by adding tags relevant to this event. </Typography>
+          </div>
 
           <TextField
             name="tags"

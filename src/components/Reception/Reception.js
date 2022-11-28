@@ -22,7 +22,8 @@ export const Reception = () => {
       >
         Find Events near you
       </Button>
-      <img src={homeImage} resizeMode="cover" class={classes.img} alt="events" /> <ReceptionHome />
+      <img src={homeImage} resizeMode="cover" class={classes.img} alt="events" />
+      <ReceptionHome />
     </div>
   );
 };

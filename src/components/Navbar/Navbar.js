@@ -8,6 +8,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import decode from 'jwt-decode';
 import eventoLogo from '../../images/eventoLogo.png';
+import AddIcon from '@mui/icons-material/Add';
+import IconButton from '@mui/material/IconButton';
+
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 export default function Navbar({ setSearchData, cancelSearch, setIsSignup }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
@@ -34,6 +38,9 @@ export default function Navbar({ setSearchData, cancelSearch, setIsSignup }) {
 
     setUser(JSON.parse(localStorage.getItem('profile')));
   }, [location]);
+  const nav = () => {
+    navigate('/createEvent');
+  };
 
   return (
     <AppBar onChange={handleChange} color="primary" className={`${classes.appBar} `} position="static" color="inhirit">
@@ -46,13 +53,18 @@ export default function Navbar({ setSearchData, cancelSearch, setIsSignup }) {
       <Toolbar className={classes.toolbar}>
         {user ? (
           <div className={`${classes.profile} ${classes.profileMob}`}>
+            <Button onClick={nav} fontSize="small" edge="false">
+              New Event
+              <AddIcon fontSize="large"></AddIcon>
+            </Button>
+
             <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageUrl}>
               {user.result.name.charAt(0)}
             </Avatar>
             <Typography className={`${classes.userName} ${classes.userNameMob}`} variant="h6">
               {user.result.name}
             </Typography>
-            <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>
+            <Button variant="contained" className={classes.logout} onClick={logout}>
               logout
             </Button>
           </div>

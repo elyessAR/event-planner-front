@@ -15,6 +15,11 @@ export default makeStyles((theme) => ({
     height: '50px',
     width: '200',
   },
+  IconButton: {
+    '&:hover': {
+      backgroundColor: 'rgb(7, 177, 77, 0.42)',
+    },
+  },
 
   toolbar: {
     display: 'flex',
@@ -24,7 +29,7 @@ export default makeStyles((theme) => ({
   profile: {
     display: 'flex',
     justifyContent: 'space-between',
-    width: '300px',
+    width: '450px',
   },
   userName: {
     display: 'flex',
