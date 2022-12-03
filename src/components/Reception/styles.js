@@ -1,4 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { Box, Button, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
 import { deepPurple } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({

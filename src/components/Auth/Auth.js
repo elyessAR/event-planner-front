@@ -11,9 +11,10 @@ import { gapi } from 'gapi-script';
 import { signin, signup } from '../../actions/auth';
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
 
-export const Auth = ({ isSignup, setIsSignup }) => {
+export const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState(initialState);
+  const [isSignup, setIsSignup] = useState(false);
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -34,8 +35,8 @@ export const Auth = ({ isSignup, setIsSignup }) => {
   };
 
   const switchMode = () => {
-    isSignup ? setIsSignup(false) : setIsSignup(true);
-    console.log(isSignup);
+    setForm(initialState);
+    setIsSignup((prevIsSignup) => !prevIsSignup);
     setShowPassword(false);
   };
 

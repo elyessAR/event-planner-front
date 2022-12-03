@@ -16,7 +16,6 @@ import { Reception } from './components/Reception/Reception';
 const App = () => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('profile'));
-  const [isSignup, setIsSignup] = useState(false);
 
   const [searchData, setSearchData] = useState('');
   const cancelSearch = () => {
@@ -29,7 +28,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Navbar setIsSignup={setIsSignup} setSearchData={setSearchData} cancelSearch={cancelSearch} />
+      <Navbar setSearchData={setSearchData} cancelSearch={cancelSearch} />
 
       <div>
         <Routes>
@@ -38,7 +37,7 @@ const App = () => {
           <Route path="/events" element={<Home searchData={searchData} />} />
           <Route path="/events/search" element={<Home />} />
           <Route path="/events/:id" element={<EventDetails />} />
-          <Route path="/auth" element={!user ? <Auth isSignup={isSignup} setIsSignup={setIsSignup} /> : <Navigate replace to="/events" />} />
+          <Route path="/auth" element={!user ? <Auth /> : <Navigate replace to="/events" />} />
         </Routes>
       </div>
     </BrowserRouter>

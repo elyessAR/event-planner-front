@@ -9,11 +9,8 @@ import { useDispatch } from 'react-redux';
 import decode from 'jwt-decode';
 import eventoLogo from '../../images/eventoLogo.png';
 import AddIcon from '@mui/icons-material/Add';
-import IconButton from '@mui/material/IconButton';
 
-import AddBoxIcon from '@mui/icons-material/AddBox';
-
-export default function Navbar({ setSearchData, cancelSearch, setIsSignup }) {
+export default function Navbar({ setSearchData, cancelSearch }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -39,7 +36,11 @@ export default function Navbar({ setSearchData, cancelSearch, setIsSignup }) {
     setUser(JSON.parse(localStorage.getItem('profile')));
   }, [location]);
   const nav = () => {
-    navigate('/createEvent');
+    if (user) {
+      navigate('/createEvent');
+    } else {
+      navigate('/auth');
+    }
   };
 
   return (
@@ -51,13 +52,12 @@ export default function Navbar({ setSearchData, cancelSearch, setIsSignup }) {
       </div>
 
       <Toolbar className={classes.toolbar}>
+        <Button onClick={nav} fontSize="small" edge="false">
+          New Event
+          <AddIcon fontSize="large"></AddIcon>
+        </Button>
         {user ? (
           <div className={`${classes.profile} ${classes.profileMob}`}>
-            <Button onClick={nav} fontSize="small" edge="false">
-              New Event
-              <AddIcon fontSize="large"></AddIcon>
-            </Button>
-
             <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageUrl}>
               {user.result.name.charAt(0)}
             </Avatar>
@@ -70,24 +70,12 @@ export default function Navbar({ setSearchData, cancelSearch, setIsSignup }) {
           </div>
         ) : (
           <>
-            <Button
-              onClick={() => {
-                setIsSignup(false);
-              }}
-              component={Link}
-              to="/auth"
-              variant="contained "
-              color="primary "
-            >
-              sign in
-            </Button>
-            <Button onClick={() => setIsSignup(true)} component={Link} className={classes.purple} to="/auth" variant="contained " color="secondary ">
-              sign Up
+            <Button component={Link} className={classes.purple} to="/auth" variant="contained " color="secondary ">
+              sign In
             </Button>
           </>
         )}
       </Toolbar>
-      <img className={`${classes.img} ${classes.imgMb}`} src={eventImage} alt="events" height="100" />
     </AppBar>
   );
 }

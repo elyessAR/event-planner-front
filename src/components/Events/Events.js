@@ -5,13 +5,20 @@ import { useNavigate } from 'react-router-dom';
 
 import { Grid, CircularProgress, Button } from '@material-ui/core';
 import { useSelector } from 'react-redux';
+import AddIcon from '@mui/icons-material/Add';
 
 const Events = ({ setCurrentId, searchData }) => {
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+
   const { events, isLoading } = useSelector((state) => state.events);
   const navigate = useNavigate();
 
   const nav = () => {
-    navigate('/createEvent');
+    if (user) {
+      navigate('/createEvent');
+    } else {
+      navigate('/auth');
+    }
   };
 
   const classes = useStyles();
@@ -20,8 +27,9 @@ const Events = ({ setCurrentId, searchData }) => {
     return (
       <div>
         <div>No current events in your area, be the first one to organize something of a value! </div>
-        <Button onClick={nav} className={classes.searchBotton} variant="contained" color="secondary">
-          Organize an Event{' '}
+        <Button onClick={nav} fontSize="small" edge="false">
+          New Event
+          <AddIcon fontSize="large"></AddIcon>
         </Button>
       </div>
     );
