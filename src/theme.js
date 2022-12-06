@@ -16,7 +16,7 @@ export const Colors = {
   inverse: '#2F3D4A',
   shaft: '#333',
   orange: '#e53935',
-  purple: '#ab47bc',
+  purple: '#4a148c',
   ///////////////
   // Grays
   ///////////////

@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Colors } from '../../theme';
-import homeImage from '../../images/eventHome.png';
+import homeImage from '../../images/reception.jpg';
 
 export const BannerContainer = styled(Box)(({ matches, theme }) => ({
   display: 'flex',
