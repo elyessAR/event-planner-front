@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 const API_endpoint = 'https://api.openweathermap.org/data/2.5/weather?';
-const API_key = 'd548a44f4a3781d10b66cb4f2cf6b87c';
+const API_key = process.env.REACT_APP_API_KEY;
 
 export const SearchLocation = () => {
   const [searchLocation, setSearchLocation] = useState('');
