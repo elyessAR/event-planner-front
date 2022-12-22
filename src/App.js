@@ -1,28 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { Container } from '@material-ui/core';
-import { TextField, Button, Typography, Paper } from '@material-ui/core';
-import { getPosition } from './actions/position';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { Container } from "@material-ui/core";
+import { TextField, Button, Typography, Paper } from "@material-ui/core";
+import { getPosition } from "./actions/position";
+import { useDispatch } from "react-redux";
 
-import Navbar from './components/Navbar/Navbar';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Home from './components/Home/Home';
-import { Auth } from './components/Auth/Auth';
-import { EventDetails } from './components/EventDetails/EventDetails';
-import { CreateEvent } from './components/CreateEvent/CreateEvent';
+import Navbar from "./components/Navbar/Navbar";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Home from "./components/Home/Home";
+import { Auth } from "./components/Auth/Auth";
+import { EventDetails } from "./components/EventDetails/EventDetails";
+import { CreateEvent } from "./components/CreateEvent/CreateEvent";
 
-import { Reception } from './components/Reception/Reception';
+import { Reception } from "./components/Reception/Reception";
 
 const App = () => {
   const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem('profile'));
+  const user = JSON.parse(localStorage.getItem("profile"));
 
-  const [searchData, setSearchData] = useState('');
+  const [searchData, setSearchData] = useState("");
   const cancelSearch = () => {
-    setSearchData('');
+    setSearchData("");
   };
   useEffect(() => {
-    console.log('useeffectwork');
     dispatch(getPosition());
   }, [dispatch]);
 
@@ -37,7 +36,10 @@ const App = () => {
           <Route path="/events" element={<Home searchData={searchData} />} />
           <Route path="/events/search" element={<Home />} />
           <Route path="/events/:id" element={<EventDetails />} />
-          <Route path="/auth" element={!user ? <Auth /> : <Navigate replace to="/events" />} />
+          <Route
+            path="/auth"
+            element={!user ? <Auth /> : <Navigate replace to="/events" />}
+          />
         </Routes>
       </div>
     </BrowserRouter>

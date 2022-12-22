@@ -1,16 +1,19 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import useStyles from './styles';
-import { TextField, Button, Typography, Paper } from '@material-ui/core';
-import FileBase from 'react-file-base64';
-import { useDispatch, useSelector } from 'react-redux';
-import { createEvent, updateEvent, getEvents } from '../../actions/events';
-import { useNavigate } from 'react-router-dom';
-import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { City, Country, State } from 'country-state-city';
-import { OpenStreetMapProvider, GeoSearchControl } from 'leaflet-geosearch';
-import { Stack, Autocomplete } from '@mui/material';
+import React, { useState, useEffect, Fragment } from "react";
+import useStyles from "./styles";
+import { TextField, Button, Typography, Paper } from "@material-ui/core";
+import FileBase from "react-file-base64";
+import { useDispatch, useSelector } from "react-redux";
+import { createEvent, updateEvent, getEvents } from "../../actions/events";
+import { useNavigate } from "react-router-dom";
+import {
+  KeyboardDateTimePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import { City, Country, State } from "country-state-city";
+import { OpenStreetMapProvider, GeoSearchControl } from "leaflet-geosearch";
+import { Stack, Autocomplete } from "@mui/material";
 
-import DateFnsUtils from '@date-io/date-fns';
+import DateFnsUtils from "@date-io/date-fns";
 
 export default function Form({ currentId, setCurrentId }) {
   const provider = new OpenStreetMapProvider();
@@ -20,32 +23,34 @@ export default function Form({ currentId, setCurrentId }) {
   const [selectedStartingDate, handleStartingDateChange] = useState(null);
   const [selectedEndingDate, handleEndingDateChange] = useState(null);
 
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [places, setPlaces] = useState([]);
   const handleSelect = async (value) => {};
 
   const countries = Country.getAllCountries();
 
   const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem('profile'));
+  const user = JSON.parse(localStorage.getItem("profile"));
   const navigate = useNavigate();
 
   const [eventData, setEventData] = useState({
-    title: '',
-    message: '',
-    tags: '',
-    selectedFile: '',
+    title: "",
+    message: "",
+    tags: "",
+    selectedFile: "",
   });
   const [eventData2, setEventData2] = useState({
-    title: '',
-    message: '',
-    tags: '',
-    selectedFile: '',
-    startingDate: '',
-    endingDate: '',
-    location: '',
+    title: "",
+    message: "",
+    tags: "",
+    selectedFile: "",
+    startingDate: "",
+    endingDate: "",
+    location: "",
   });
-  const event = useSelector((state) => (currentId ? state.events.events.find((e) => e._id === currentId) : null));
+  const event = useSelector((state) =>
+    currentId ? state.events.events.find((e) => e._id === currentId) : null
+  );
 
   const classes = useStyles();
   useEffect(() => {
@@ -54,9 +59,13 @@ export default function Form({ currentId, setCurrentId }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (currentId) {
-      dispatch(updateEvent(currentId, { ...eventData2, name: user?.result?.name }));
+      dispatch(
+        updateEvent(currentId, { ...eventData2, name: user?.result?.name })
+      );
     } else {
-      dispatch(createEvent({ ...eventData2, name: user?.result?.name }, navigate));
+      dispatch(
+        createEvent({ ...eventData2, name: user?.result?.name }, navigate)
+      );
     }
     clear();
   };
@@ -72,13 +81,28 @@ export default function Form({ currentId, setCurrentId }) {
   }
   const clear = () => {
     setCurrentId(null);
-    setEventData({ title: '', message: '', tags: '', selectedFile: '', location: '', startingDate: '', endingDate: '' });
+    setEventData({
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+      location: "",
+      startingDate: "",
+      endingDate: "",
+    });
   };
 
   return (
     <Paper className={classes.paper}>
-      <form autoComplete="off" novalidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-        <Typography variant="h6">{currentId ? 'Editing' : 'Creating'} an event </Typography>
+      <form
+        autoComplete="off"
+        novalidate
+        className={`${classes.root} ${classes.form}`}
+        onSubmit={handleSubmit}
+      >
+        <Typography variant="h6">
+          {currentId ? "Editing" : "Creating"} an event{" "}
+        </Typography>
 
         <TextField
           required
@@ -87,7 +111,9 @@ export default function Form({ currentId, setCurrentId }) {
           label="Title"
           fullWidth
           value={currentId ? event?.title : eventData2.title}
-          onChange={(e) => setEventData2({ ...eventData2, title: e.target.value })}
+          onChange={(e) =>
+            setEventData2({ ...eventData2, title: e.target.value })
+          }
         />
         <TextField
           name="message"
@@ -95,7 +121,9 @@ export default function Form({ currentId, setCurrentId }) {
           label="Message"
           fullWidth
           value={currentId ? event?.message : eventData2.message}
-          onChange={(e) => setEventData2({ ...eventData2, message: e.target.value })}
+          onChange={(e) =>
+            setEventData2({ ...eventData2, message: e.target.value })
+          }
         />
         <TextField
           name="tags"
@@ -103,7 +131,9 @@ export default function Form({ currentId, setCurrentId }) {
           label="Tags"
           fullWidth
           value={currentId ? event?.tags : eventData2.tags}
-          onChange={(e) => setEventData2({ ...eventData2, tags: e.target.value.split(',') })}
+          onChange={(e) =>
+            setEventData2({ ...eventData2, tags: e.target.value.split(",") })
+          }
         />
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDateTimePicker
@@ -151,10 +181,11 @@ export default function Form({ currentId, setCurrentId }) {
             required
             inputValue={value}
             options={places}
-            renderInput={(params) => <TextField {...params} label="Event Location" />}
+            renderInput={(params) => (
+              <TextField {...params} label="Event Location" />
+            )}
             onInputChange={(event, newInputValue) => {
               setValue(newInputValue);
-              console.log(newInputValue);
               setEventData2({ ...eventData2, location: newInputValue });
             }}
             freeSolo
@@ -162,14 +193,25 @@ export default function Form({ currentId, setCurrentId }) {
         </Stack>
 
         <div className={classes.fileInput}>
-          <FileBase type="file" multiple={false} onDone={({ base64 }) => setEventData2({ ...eventData2, selectedFile: base64 })} />
+          <FileBase
+            type="file"
+            multiple={false}
+            onDone={({ base64 }) =>
+              setEventData2({ ...eventData2, selectedFile: base64 })
+            }
+          />
         </div>
         <Button variant="contained" color="primary" size="large " type="submit">
-          {' '}
+          {" "}
           Submit
         </Button>
-        <Button variant="contained" color="secondary" size="small " onClick={clear}>
-          {' '}
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small "
+          onClick={clear}
+        >
+          {" "}
           Clear
         </Button>
       </form>

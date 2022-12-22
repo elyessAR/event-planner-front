@@ -1,22 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { Button, TextField, Paper, Grid, Typography, Container } from '@material-ui/core';
-import FileBase from 'react-file-base64';
-import { createEvent } from '../../actions/events';
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  TextField,
+  Paper,
+  Grid,
+  Typography,
+  Container,
+} from "@material-ui/core";
+import FileBase from "react-file-base64";
+import { createEvent } from "../../actions/events";
 
-import Input from './Input';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import useStyles from './styles';
-import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import { OpenStreetMapProvider, GeoSearchControl } from 'leaflet-geosearch';
+import Input from "./Input";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import useStyles from "./styles";
+import {
+  KeyboardDateTimePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import { OpenStreetMapProvider, GeoSearchControl } from "leaflet-geosearch";
 
-import { Stack, Autocomplete } from '@mui/material';
+import { Stack, Autocomplete } from "@mui/material";
 
-const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 export const CreateEvent = () => {
-  const user = JSON.parse(localStorage.getItem('profile'));
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const provider = new OpenStreetMapProvider();
 
@@ -24,17 +40,17 @@ export const CreateEvent = () => {
     provider: provider,
   });
   const [eventData, setEventData] = useState({
-    title: '',
-    message: '',
-    tags: '',
-    selectedFile: '',
-    startingDate: '',
-    endingDate: '',
-    location: '',
+    title: "",
+    message: "",
+    tags: "",
+    selectedFile: "",
+    startingDate: "",
+    endingDate: "",
+    location: "",
   });
   const [selectedStartingDate, handleStartingDateChange] = useState(null);
   const [selectedEndingDate, handleEndingDateChange] = useState(null);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [places, setPlaces] = useState([]);
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -60,7 +76,7 @@ export const CreateEvent = () => {
         <Typography variant="h5"> </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Typography variant="h6" className={classes.typography}>
-            Basic Info:{' '}
+            Basic Info:{" "}
           </Typography>
 
           <TextField
@@ -70,7 +86,6 @@ export const CreateEvent = () => {
             variant="outlined"
             value={eventData.title}
             onChange={(e) => {
-              console.log('onchangeworks');
               setEventData({ ...eventData, title: e.target.value });
             }}
             autoFocus
@@ -82,14 +97,19 @@ export const CreateEvent = () => {
             label="Message"
             variant="outlined"
             value={eventData.message}
-            onChange={(e) => setEventData({ ...eventData, message: e.target.value })}
+            onChange={(e) =>
+              setEventData({ ...eventData, message: e.target.value })
+            }
           />
 
           <div>
             <Typography variant="h6" className={classes.typography}>
-              Tags:{' '}
+              Tags:{" "}
             </Typography>
-            <Typography variant="h8">Improve discoverability of your event by adding tags relevant to this event. </Typography>
+            <Typography variant="h8">
+              Improve discoverability of your event by adding tags relevant to
+              this event.{" "}
+            </Typography>
           </div>
 
           <TextField
@@ -97,11 +117,13 @@ export const CreateEvent = () => {
             label="Tags"
             variant="outlined"
             value={eventData.tags}
-            onChange={(e) => setEventData({ ...eventData, tags: e.target.value.split(',') })}
+            onChange={(e) =>
+              setEventData({ ...eventData, tags: e.target.value.split(",") })
+            }
           />
 
           <Typography variant="h6" className={classes.typography}>
-            Date and time:{' '}
+            Date and time:{" "}
           </Typography>
 
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -136,16 +158,18 @@ export const CreateEvent = () => {
           </MuiPickersUtilsProvider>
 
           <Typography variant="h6" className={classes.typography}>
-            Location:{' '}
+            Location:{" "}
           </Typography>
 
           <Stack
             required
             value={value}
             onChange={(e) => {
-              provider.search({ query: e.target.value }).then(function (result) {
-                setPlaces(result);
-              });
+              provider
+                .search({ query: e.target.value })
+                .then(function (result) {
+                  setPlaces(result);
+                });
             }}
             spacing={2}
             width="250px"
@@ -154,7 +178,9 @@ export const CreateEvent = () => {
               required
               inputValue={value}
               options={places}
-              renderInput={(params) => <TextField {...params} label="Event Location" />}
+              renderInput={(params) => (
+                <TextField {...params} label="Event Location" />
+              )}
               onInputChange={(event, newInputValue) => {
                 setValue(newInputValue);
                 console.log(newInputValue);
@@ -164,15 +190,26 @@ export const CreateEvent = () => {
             />
           </Stack>
           <Typography variant="h6" className={classes.typography}>
-            Thumbnail{' '}
+            Thumbnail{" "}
           </Typography>
 
           <div className={classes.fileInput}>
-            <FileBase type="file" multiple={false} onDone={({ base64 }) => setEventData({ ...eventData, selectedFile: base64 })} />
+            <FileBase
+              type="file"
+              multiple={false}
+              onDone={({ base64 }) =>
+                setEventData({ ...eventData, selectedFile: base64 })
+              }
+            />
           </div>
 
-          <Button color="primary" variant="contained" type="submit" size="large ">
-            Create Event{' '}
+          <Button
+            color="primary"
+            variant="contained"
+            type="submit"
+            size="large "
+          >
+            Create Event{" "}
           </Button>
 
           <Grid container justify="flex-end">
