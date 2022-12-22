@@ -10,7 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 const Events = ({ setCurrentId, searchData }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
 
-  const { events, isLoading } = useSelector((state) => state?.events);
+  const { events, isLoading } = useSelector((state) => state.events);
   const navigate = useNavigate();
 
   const nav = () => {
@@ -23,7 +23,7 @@ const Events = ({ setCurrentId, searchData }) => {
 
   const classes = useStyles();
 
-  if (!events.length && !isLoading)
+  if (!events?.length && !isLoading)
     return (
       <div>
         <div>
